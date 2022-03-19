@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/extractFragment">
+
+    <fragment
+        android:id="@+id/extractFragment"
+        android:name="guilhermekunz.com.br.k7bank.ui.extract.ExtractFragment"
+        android:label="fragment_extract"
+        tools:layout="@layout/fragment_extract" >
+        <action
+            android:id="@+id/action_extractFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="guilhermekunz.com.br.k7bank.ui.receipt.ReceiptFragment"
+        android:label="fragment_receipt"
+        tools:layout="@layout/fragment_receipt" >
+        <action
+            android:id="@+id/action_receiptFragment_to_extractFragment"
+            app:destination="@id/extractFragment" />
+    </fragment>
+</navigation>

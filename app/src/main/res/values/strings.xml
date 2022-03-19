@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">K7 Bank</string>
+
+    //ExtractFragment
+    <string name="extract">Extrato</string>
+    <string name="your_balance">Seu Saldo</string>
+    <string name="rs">R$</string>
+
+
+</resources>
