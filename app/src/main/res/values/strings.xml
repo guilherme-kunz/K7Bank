@@ -6,6 +6,12 @@
     <string name="your_balance">Seu Saldo</string>
     <string name="rs">R$</string>
     <string name="your_movements">Suas Movimentações</string>
+    <string name="pix">Pix</string>
+
+    //ReceiptFragment
+    <string name="receipt">Comprovante</string>
+    <string name="type_of_movement">Tipo de movimentação</string>
+    <string name="value">Valor</string>
 
 
 </resources>

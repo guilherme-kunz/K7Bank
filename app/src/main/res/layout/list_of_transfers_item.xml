@@ -65,5 +65,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_account_name" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_pix"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/green_200"
+        android:text="@string/pix"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_type" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

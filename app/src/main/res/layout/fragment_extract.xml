@@ -41,6 +41,15 @@
                 android:layout_marginTop="24dp"
                 />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_toggle"
+                android:layout_marginTop="26dp"
+                android:layout_marginStart="8dp"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -94,5 +103,7 @@
         tools:listitem="@layout/list_of_transfers_item"
         tools:itemCount="5"
         />
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
