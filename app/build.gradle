@@ -69,5 +69,10 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
+    //Koin
+    implementation 'org.koin:koin-androidx:2.1.6'
+    implementation 'org.koin:koin-androidx-viewmodel:2.1.6'
+    implementation 'org.koin:koin-androidx-scope:2.1.6'
+
 
 }
