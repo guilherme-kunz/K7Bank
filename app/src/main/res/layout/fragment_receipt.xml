@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.receipt.ReceiptFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -25,7 +29,7 @@
         android:id="@+id/tv_receipt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/receipt"
         android:textSize="17sp"
         android:textColor="@color/black"
@@ -36,10 +40,10 @@
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="0.7dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/gray" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -50,7 +54,7 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -60,7 +64,7 @@
         android:text="Transferência enviada"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         />
 
@@ -72,11 +76,167 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_value_rs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rs"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_value_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100,00"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="4dp"
+            />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/receiver"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_receiver_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="David Bond"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_banking_institution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/receiver"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_banking_institution_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Banco Phi"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         />
 
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_date_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_hour"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13/10/2020"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_trace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trace"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="4dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15:27:02"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="4dp" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_authentication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/authentication"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_authentication_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123445345"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        android:backgroundTint="@color/green_200"
+        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
+
+    </LinearLayout>
+
+</ScrollView>
