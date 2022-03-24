@@ -7,13 +7,13 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 
-class K7BankApplication: Application() {
+class Application: Application() {
 
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
-            androidContext(this@K7BankApplication)
+            androidContext(this@Application)
             koin.loadModules(listOf(
                 dataModule
             ))
