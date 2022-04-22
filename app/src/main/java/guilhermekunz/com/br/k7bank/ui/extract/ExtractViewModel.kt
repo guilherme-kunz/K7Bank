@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 
 class ExtractViewModel(val repository: Repository)  : ViewModel() {
 
-    private val _balanceResponse = MutableLiveData<MyBalanceResponse>()
-    val balanceResponse = _balanceResponse as LiveData<MyBalanceResponse>
+    private val _balanceResponse = MutableLiveData<MyBalanceResponse?>()
+    val balanceResponse = _balanceResponse as LiveData<MyBalanceResponse?>
 
     private val _statementResponse = MutableLiveData<MyStatementResponse>()
     val statementResponse = _statementResponse as LiveData<MyStatementResponse>
@@ -21,7 +21,7 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
     fun getMyBalance() = viewModelScope.launch {
         try {
             val response = repository.getMyBalance()
-            _balanceResponse.value = response!!
+            _balanceResponse.postValue(response)
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
         }

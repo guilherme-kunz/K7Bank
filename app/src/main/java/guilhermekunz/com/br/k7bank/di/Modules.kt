@@ -1,6 +1,7 @@
 package guilhermekunz.com.br.k7bank.di
 
 import guilhermekunz.com.br.k7bank.api.ClientRetrofit
+import guilhermekunz.com.br.k7bank.repository.Repository
 import guilhermekunz.com.br.k7bank.repository.RepositoryImpl
 import guilhermekunz.com.br.k7bank.ui.extract.ExtractViewModel
 import guilhermekunz.com.br.k7bank.ui.receipt.ReceiptViewModel
@@ -15,7 +16,7 @@ val viewModelModule = module(override = true){
 
 
 val repositoryModule = module(override = true) {
-    single<RepositoryImpl> {
+    single<Repository> {
         RepositoryImpl(api = get())
     }
 }

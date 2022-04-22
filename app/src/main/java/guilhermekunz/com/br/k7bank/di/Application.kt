@@ -1,4 +1,4 @@
-package guilhermekunz.com.br.k7bank
+package guilhermekunz.com.br.k7bank.di
 
 import android.app.Application
 import guilhermekunz.com.br.k7bank.di.dataModule
