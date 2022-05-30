@@ -20,7 +20,7 @@ class RepositoryImpl(val api: BankApi) : Repository {
     }
 
     override suspend fun getMyStatement(limit: String, offset: String): MyStatementResponse? {
-        val response = api.getMyStatement(TOKEN, limit = "10", offset = "1")
+        val response = api.getMyStatement(TOKEN, limit, offset)
         return if (response.isSuccessful) {
             response.body()
         } else {

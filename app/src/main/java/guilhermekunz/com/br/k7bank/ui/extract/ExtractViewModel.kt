@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
+import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.repository.Repository
 import kotlinx.coroutines.launch

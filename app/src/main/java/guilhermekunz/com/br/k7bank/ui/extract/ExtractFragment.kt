@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
+import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
+import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -15,6 +18,8 @@ class ExtractFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<ExtractViewModel>()
+
+    lateinit var extractAdapter: ExtractAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,7 @@ class ExtractFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getMyBalance()
+        viewModel.getMyStatement("10", "1")
         initObserver()
     }
 
@@ -40,6 +46,13 @@ class ExtractFragment : Fragment() {
 
     private fun setAmount(myBalanceResponse: MyBalanceResponse) {
         binding.tvExtractBalance.text = myBalanceResponse.amount.toString()
+    }
+
+    private fun setAdapter() {
+        binding.rvYourMovements.apply {
+            adapter = extractAdapter
+            extractAdapter.append()
+        }
     }
 
 
