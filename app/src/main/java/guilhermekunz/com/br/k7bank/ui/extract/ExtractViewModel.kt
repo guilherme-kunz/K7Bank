@@ -16,8 +16,8 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
     private val _balanceResponse = MutableLiveData<MyBalanceResponse?>()
     val balanceResponse = _balanceResponse as LiveData<MyBalanceResponse?>
 
-    private val _statementResponse = MutableLiveData<MyStatementResponse>()
-    val statementResponse = _statementResponse as LiveData<MyStatementResponse>
+    private val _statementResponse = MutableLiveData<MyStatementResponse?>()
+    val statementResponse = _statementResponse as LiveData<MyStatementResponse?>
 
     fun getMyBalance() = viewModelScope.launch {
         try {
@@ -31,7 +31,9 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
     fun getMyStatement(limit: String, offset: String) = viewModelScope.launch {
         try {
             val response = repository.getMyStatement(limit, offset)
-            _statementResponse.value = response!!
+            if (response != null){
+                _statementResponse.value = response
+            }
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
         }

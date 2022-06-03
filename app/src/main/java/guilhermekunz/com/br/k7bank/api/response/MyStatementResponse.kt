@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class MyStatementResponse(
-    @SerializedName("myStatementItems") val myStatementItems: List<MyStatementItem>
+    @SerializedName("items") val myStatementItems: List<MyStatementItem>
 ): Serializable
 
 data class MyStatementItem(

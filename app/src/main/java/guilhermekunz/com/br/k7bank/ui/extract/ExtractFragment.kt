@@ -34,6 +34,7 @@ class ExtractFragment : Fragment() {
         viewModel.getMyBalance()
         viewModel.getMyStatement("10", "1")
         initObserver()
+        extractAdapter = ExtractAdapter()
     }
 
     private fun initObserver() {
@@ -42,16 +43,21 @@ class ExtractFragment : Fragment() {
                 setAmount(it)
             }
         }
+        viewModel.statementResponse.observe(viewLifecycleOwner){
+            it?.let {
+                setAdapter(it)
+            }
+        }
     }
 
     private fun setAmount(myBalanceResponse: MyBalanceResponse) {
         binding.tvExtractBalance.text = myBalanceResponse.amount.toString()
     }
 
-    private fun setAdapter() {
+    private fun setAdapter(myStatementItem : MyStatementResponse) {
         binding.rvYourMovements.apply {
             adapter = extractAdapter
-            extractAdapter.append()
+            extractAdapter.append(myStatementItem.myStatementItems)
         }
     }
 
