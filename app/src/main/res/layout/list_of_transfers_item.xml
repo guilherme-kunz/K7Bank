@@ -29,30 +29,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_extract_movement_type" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_extract_currency_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/rs"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_extract_movement_account_name" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_extract_amount_of_movement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:text="100,00"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/tv_extract_currency_item"
-        app:layout_constraintTop_toTopOf="@+id/tv_extract_currency_item" />
+        app:layout_constraintStart_toStartOf="@+id/tv_extract_movement_account_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_extract_movement_account_name" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_extract_movement_date"

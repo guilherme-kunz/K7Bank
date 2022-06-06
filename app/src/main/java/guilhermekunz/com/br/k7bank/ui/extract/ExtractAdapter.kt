@@ -1,12 +1,12 @@
 package guilhermekunz.com.br.k7bank.ui.extract
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.ListOfTransfersItemBinding
-import guilhermekunz.com.br.k7bank.utils.DateUtils
 
 class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
 
@@ -14,7 +14,13 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
     private var clickListener: ClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ListOfTransfersItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ListOfTransfersItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ExtractAdapter.ViewHolder, position: Int) {
@@ -29,7 +35,7 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setClickListener(clickListener: ClickListener){
+    fun setClickListener(clickListener: ClickListener) {
         this.clickListener = clickListener
     }
 
@@ -52,20 +58,28 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
             }
         }
 
-            fun bind(myStatementItem: MyStatementItem) {
-                this.myStatementItem = myStatementItem
-                tvDescription.text = myStatementItem.description
-                tvFrom.text = myStatementItem.from
-                tvAmount.text = myStatementItem.amount.toString()
+        @SuppressLint("SetTextI18n")
+        fun bind(myStatementItem: MyStatementItem) {
+            this.myStatementItem = myStatementItem
+            tvDescription.text = myStatementItem.description
+            val from: String? = myStatementItem.from
+            val to: String? = myStatementItem.to
+            val textFrom = when {
+                from != null -> from
+                to != null -> to
+                else ->  ""
+            }
+            tvFrom.text = textFrom
+            tvAmount.text = "R$ " + myStatementItem.amount.toString()
 //                val dateDayMonth = myStatementItem.let { DateUtils.formatDateDayMonth(it.createdAt) }
 //                tvCreatedAt.text = dateDayMonth
-                tvCreatedAt.text = myStatementItem.createdAt
-                if (myStatementItem.tType == "PIXCASHOUT"){
-                    btnPix.visibility = View.VISIBLE
-                } else {
-                    btnPix.visibility = View.GONE
-                }
+            tvCreatedAt.text = myStatementItem.createdAt
+            if (myStatementItem.tType == "PIXCASHOUT") {
+                btnPix.visibility = View.VISIBLE
+            } else {
+                btnPix.visibility = View.GONE
             }
+        }
 
     }
 
