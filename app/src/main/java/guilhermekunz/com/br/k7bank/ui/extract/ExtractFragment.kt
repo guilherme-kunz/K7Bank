@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
+import guilhermekunz.com.br.k7bank.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ExtractFragment : Fragment() {
@@ -58,6 +62,13 @@ class ExtractFragment : Fragment() {
         binding.rvYourMovements.apply {
             adapter = extractAdapter
             extractAdapter.append(myStatementItem.myStatementItems)
+            extractAdapter.setClickListener(object : ExtractAdapter.ClickListener {
+                override fun onItemClick(myStatementItem: MyStatementItem, position: Int) {
+                    val navController: NavController =
+                        Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
+                    navController.navigate(R.id.receiptFragment)
+                }
+            })
         }
     }
 
