@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -38,6 +39,7 @@ class ReceiptFragment : Fragment() {
         if (args.mystatementItem != null) viewModel.myStatementItem = args.mystatementItem
         getDetailStatement()
         initObserver()
+        btnShare()
     }
 
     private fun onBackPressed() {
@@ -76,6 +78,12 @@ class ReceiptFragment : Fragment() {
         when (state) {
             ReceiptViewModel.State.LOADING -> binding.progressBarReceipt.visibility = View.VISIBLE
             ReceiptViewModel.State.LOADING_FINISHED -> binding.progressBarReceipt.visibility = View.GONE
+        }
+    }
+
+    private fun btnShare() {
+        binding.btnShare.setOnClickListener {
+            Toast.makeText(context, "Você é burro cara!", Toast.LENGTH_LONG).show()
         }
     }
 
