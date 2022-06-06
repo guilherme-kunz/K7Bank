@@ -22,5 +22,10 @@
         <action
             android:id="@+id/action_receiptFragment_to_extractFragment"
             app:destination="@id/extractFragment" />
+        <argument
+            android:name="mystatement_item"
+            app:argType="guilhermekunz.com.br.k7bank.api.response.MyStatementItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

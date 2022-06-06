@@ -6,10 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
+import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.repository.Repository
 import kotlinx.coroutines.launch
 
 class ReceiptViewModel(val repository: Repository) : ViewModel() {
+
+    var myStatementItem: MyStatementItem? = null
 
     private val _statementDetailResponse = MutableLiveData<DetailStatementResponse>()
     val statementDetailResponse = _statementDetailResponse as LiveData<DetailStatementResponse>
