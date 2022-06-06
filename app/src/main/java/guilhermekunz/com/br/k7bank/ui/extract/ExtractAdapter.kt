@@ -1,10 +1,12 @@
 package guilhermekunz.com.br.k7bank.ui.extract
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.ListOfTransfersItemBinding
+import guilhermekunz.com.br.k7bank.utils.DateUtils
 
 class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
 
@@ -31,7 +33,7 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
         this.clickListener = clickListener
     }
 
-    inner class ViewHolder(val binding: ListOfTransfersItemBinding) :
+    inner class ViewHolder(binding: ListOfTransfersItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private lateinit var myStatementItem: MyStatementItem
         private val tvDescription = binding.tvExtractMovementType
@@ -54,6 +56,8 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
                 tvDescription.text = myStatementItem.description
                 tvFrom.text = myStatementItem.from
                 tvAmount.text = myStatementItem.amount.toString()
+//                val dateDayMonth = myStatementItem.let { DateUtils.formatDateDayMonth(it.createdAt) }
+//                tvCreatedAt.text = dateDayMonth
                 tvCreatedAt.text = myStatementItem.createdAt
             }
 
