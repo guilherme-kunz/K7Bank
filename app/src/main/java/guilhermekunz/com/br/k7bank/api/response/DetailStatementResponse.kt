@@ -10,5 +10,7 @@ data class DetailStatementResponse(
     @SerializedName("description") val description: String,
     @SerializedName("id") val id: String,
     @SerializedName("tType") val tType: String,
-    @SerializedName("to") val to: String
+    @SerializedName("to") val to: String,
+    @SerializedName("from") val from: String,
+    @SerializedName("bankName") val bankName: String
 ): Serializable

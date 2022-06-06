@@ -88,23 +88,13 @@
         android:layout_marginBottom="24dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_value_rs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rs"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginStart="16dp"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_value_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100,00"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="16dp"
             />
 
     </LinearLayout>
@@ -135,7 +125,7 @@
         android:id="@+id/tv_banking_institution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/receiver"
+        android:text="@string/banking_institution"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -175,30 +165,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="13/10/2020"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_marginStart="16dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_trace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/trace"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginStart="4dp" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="15:27:02"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginStart="4dp" />
 
     </LinearLayout>
 
