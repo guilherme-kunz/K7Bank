@@ -92,6 +92,14 @@
         android:textSize="16sp"
         android:textStyle="bold"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar_extract"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_your_movements"
         android:layout_width="match_parent"
@@ -101,7 +109,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/list_of_transfers_item"
         />
-
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -52,6 +52,11 @@ class ExtractFragment : Fragment() {
                 setAdapter(it)
             }
         }
+        viewModel.loadingStateLiveDate.observe(viewLifecycleOwner){
+            it?.let {
+                handleProgressBar(it)
+            }
+        }
     }
 
     private fun setAmount(myBalanceResponse: MyBalanceResponse) {
@@ -69,6 +74,13 @@ class ExtractFragment : Fragment() {
                     navController.navigate(R.id.receiptFragment)
                 }
             })
+        }
+    }
+
+    private fun handleProgressBar(state: ExtractViewModel.State) {
+        when (state){
+            ExtractViewModel.State.LOADING -> binding.progressBarExtract.visibility = View.VISIBLE
+            ExtractViewModel.State.LOADING_FINISHED -> binding.progressBarExtract.visibility = View.GONE
         }
     }
 
