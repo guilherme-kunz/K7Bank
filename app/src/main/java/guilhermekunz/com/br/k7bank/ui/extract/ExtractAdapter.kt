@@ -40,6 +40,7 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
         private val tvFrom = binding.tvExtractMovementAccountName
         private val tvAmount = binding.tvExtractAmountOfMovement
         private val tvCreatedAt = binding.tvExtractMovementDate
+        private val btnPix = binding.btnPix
 
         init {
             itemView.let {
@@ -59,6 +60,11 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
 //                val dateDayMonth = myStatementItem.let { DateUtils.formatDateDayMonth(it.createdAt) }
 //                tvCreatedAt.text = dateDayMonth
                 tvCreatedAt.text = myStatementItem.createdAt
+                if (myStatementItem.tType == "PIXCASHOUT"){
+                    btnPix.visibility = View.VISIBLE
+                } else {
+                    btnPix.visibility = View.GONE
+                }
             }
 
     }

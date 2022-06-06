@@ -74,6 +74,7 @@
         android:text="@string/pix"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_type" />
+        app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_type"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
