@@ -59,19 +59,10 @@
             android:layout_marginTop="8dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rs"
-                android:textColor="@color/green_200"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginStart="24dp"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_extract_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="24dp"
                 android:textStyle="bold"
                 android:textColor="@color/green_200"
                 android:textSize="18sp"

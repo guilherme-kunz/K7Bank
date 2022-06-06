@@ -57,6 +57,9 @@ class ReceiptFragment : Fragment() {
         viewModel.statementDetailResponse.observe(viewLifecycleOwner) {
             setData(it)
         }
+        viewModel.loadingStateLiveDate.observe(viewLifecycleOwner) {
+            handleProgressBar(it)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -67,6 +70,13 @@ class ReceiptFragment : Fragment() {
         binding.tvBankingInstitutionName.text = detailStatementResponse.bankName
         binding.tvDate.text = detailStatementResponse.createdAt
         binding.tvAuthenticationNumber.text = detailStatementResponse.id
+    }
+
+    private fun handleProgressBar(state: ReceiptViewModel.State) {
+        when (state) {
+            ReceiptViewModel.State.LOADING -> binding.progressBarReceipt.visibility = View.VISIBLE
+            ReceiptViewModel.State.LOADING_FINISHED -> binding.progressBarReceipt.visibility = View.GONE
+        }
     }
 
     override fun onDestroy() {

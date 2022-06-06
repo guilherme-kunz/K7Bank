@@ -1,5 +1,6 @@
 package guilhermekunz.com.br.k7bank.ui.extract
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,8 +60,9 @@ class ExtractFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setAmount(myBalanceResponse: MyBalanceResponse) {
-        binding.tvExtractBalance.text = myBalanceResponse.amount.toString()
+        binding.tvExtractBalance.text = "R$ " + myBalanceResponse.amount.toString()
     }
 
     private fun setAdapter(myStatementItem : MyStatementResponse) {

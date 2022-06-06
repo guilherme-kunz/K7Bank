@@ -14,16 +14,24 @@ class ReceiptViewModel(val repository: Repository) : ViewModel() {
 
     var myStatementItem: MyStatementItem? = null
 
+    var loadingStateLiveDate = MutableLiveData<State>()
+
     private val _statementDetailResponse = MutableLiveData<DetailStatementResponse>()
     val statementDetailResponse = _statementDetailResponse as LiveData<DetailStatementResponse>
 
     fun statementDetail(id: String) = viewModelScope.launch {
+        loadingStateLiveDate.value = State.LOADING
         try {
             val response = repository.getMyStatementDetail(id)
             _statementDetailResponse.value = response!!
+            loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
         }
+    }
+
+    enum class State {
+        LOADING, LOADING_FINISHED
     }
 
 }
