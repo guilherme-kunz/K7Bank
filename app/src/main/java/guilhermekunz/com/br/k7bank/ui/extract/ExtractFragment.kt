@@ -15,6 +15,7 @@ import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
 import guilhermekunz.com.br.k7bank.ui.MainActivity
+import guilhermekunz.com.br.k7bank.ui.receipt.ReceiptFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ExtractFragment : Fragment() {
@@ -71,9 +72,14 @@ class ExtractFragment : Fragment() {
             extractAdapter.append(myStatementItem.myStatementItems)
             extractAdapter.setClickListener(object : ExtractAdapter.ClickListener {
                 override fun onItemClick(myStatementItem: MyStatementItem, position: Int) {
-                    val navController: NavController =
-                        Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
-                    navController.navigate(R.id.receiptFragment)
+                    val fragmentDestination = ReceiptFragment.newInstance(myStatementItem)
+//                    val navController: NavController =
+////                        Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
+////                    navController.navigate(R.id.receiptFragment)
+                    val fragmentManager = fragmentManager
+                    val fragmentTransition = fragmentManager?.beginTransaction()
+                    fragmentTransition?.replace(R.id.mainNavHostFragment, fragmentDestination)
+                    fragmentTransition?.commit()
                 }
             })
         }

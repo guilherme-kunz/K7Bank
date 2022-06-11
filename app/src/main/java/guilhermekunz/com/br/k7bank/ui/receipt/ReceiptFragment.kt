@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
+import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.FragmentReceiptBinding
 import guilhermekunz.com.br.k7bank.ui.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,8 +23,6 @@ class ReceiptFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<ReceiptViewModel>()
-
-    private val args: ReceiptFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +35,10 @@ class ReceiptFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackPressed()
-        if (args.mystatementItem != null) viewModel.myStatementItem = args.mystatementItem
         getDetailStatement()
         initObserver()
         btnShare()
+        val arguments = arguments?.
     }
 
     private fun onBackPressed() {
@@ -90,6 +89,14 @@ class ReceiptFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance(myStatementItem: MyStatementItem) : ReceiptFragment {
+            val bundle = Bundle().apply { putParcelable("myStatement", myStatementItem) }
+            val receiptFragment = ReceiptFragment()
+            receiptFragment.arguments = bundle
+        }
     }
 
 }
