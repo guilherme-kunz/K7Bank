@@ -72,10 +72,9 @@ class ExtractFragment : Fragment() {
             extractAdapter.append(myStatementItem.myStatementItems)
             extractAdapter.setClickListener(object : ExtractAdapter.ClickListener {
                 override fun onItemClick(myStatementItem: MyStatementItem, position: Int) {
-                    val fragmentDestination = ReceiptFragment.newInstance(myStatementItem)
-//                    val navController: NavController =
-////                        Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
-////                    navController.navigate(R.id.receiptFragment)
+                    val fragmentDestination = ReceiptFragment()
+                    val fragmentArgs = ReceiptFragment.newInstance(myStatementItem)
+                    fragmentDestination.arguments = fragmentArgs
                     val fragmentManager = fragmentManager
                     val fragmentTransition = fragmentManager?.beginTransaction()
                     fragmentTransition?.replace(R.id.mainNavHostFragment, fragmentDestination)

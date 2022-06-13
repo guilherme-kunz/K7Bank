@@ -29,7 +29,7 @@ class RepositoryImpl(val api: BankApi) : Repository {
     }
 
     override suspend fun getMyStatementDetail(id: String): DetailStatementResponse? {
-        val response = api.getMyStatementDetail(TOKEN, id = "BAF91302-3E25-4E5E-89A6-0F6CD4BEC5B6")
+        val response = api.getMyStatementDetail(TOKEN, id)
         return if (response.isSuccessful) {
             response.body()
         } else {

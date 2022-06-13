@@ -38,7 +38,6 @@ class ReceiptFragment : Fragment() {
         getDetailStatement()
         initObserver()
         btnShare()
-        val arguments = arguments?.
     }
 
     private fun onBackPressed() {
@@ -50,8 +49,10 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun getDetailStatement() {
-        val statementId = viewModel.myStatementItem?.id ?: 0
-        viewModel.statementDetail(statementId.toString())
+        val myStatementItem = arguments?.getParcelable<MyStatementItem>("myStatementItem")
+        if (myStatementItem != null) {
+            viewModel.statementDetail(myStatementItem.id)
+        }
     }
 
     private fun initObserver() {
@@ -92,10 +93,8 @@ class ReceiptFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(myStatementItem: MyStatementItem) : ReceiptFragment {
-            val bundle = Bundle().apply { putParcelable("myStatement", myStatementItem) }
-            val receiptFragment = ReceiptFragment()
-            receiptFragment.arguments = bundle
+        fun newInstance(myStatementItem: MyStatementItem) = Bundle().apply {
+            putParcelable("myStatementItem", myStatementItem)
         }
     }
 
