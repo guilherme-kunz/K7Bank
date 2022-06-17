@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
-import guilhermekunz.com.br.k7bank.ui.MainActivity
 import guilhermekunz.com.br.k7bank.ui.receipt.ReceiptFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,14 +46,20 @@ class ExtractFragment : Fragment() {
                 setAmount(it)
             }
         }
-        viewModel.statementResponse.observe(viewLifecycleOwner){
+        viewModel.statementResponse.observe(viewLifecycleOwner) {
             it?.let {
                 setAdapter(it)
             }
         }
-        viewModel.loadingStateLiveDate.observe(viewLifecycleOwner){
+        viewModel.loadingStateLiveDate.observe(viewLifecycleOwner) {
             it?.let {
                 handleProgressBar(it)
+            }
+            viewModel.balanceError.observe(viewLifecycleOwner) {
+                apiError()
+            }
+            viewModel.statementError.observe(viewLifecycleOwner) {
+                apiError()
             }
         }
     }
@@ -66,7 +69,7 @@ class ExtractFragment : Fragment() {
         binding.tvExtractBalance.text = "R$ " + myBalanceResponse.amount.toString()
     }
 
-    private fun setAdapter(myStatementItem : MyStatementResponse) {
+    private fun setAdapter(myStatementItem: MyStatementResponse) {
         binding.rvYourMovements.apply {
             adapter = extractAdapter
             extractAdapter.append(myStatementItem.myStatementItems)
@@ -85,10 +88,19 @@ class ExtractFragment : Fragment() {
     }
 
     private fun handleProgressBar(state: ExtractViewModel.State) {
-        when (state){
+        when (state) {
             ExtractViewModel.State.LOADING -> binding.progressBarExtract.visibility = View.VISIBLE
-            ExtractViewModel.State.LOADING_FINISHED -> binding.progressBarExtract.visibility = View.GONE
+            ExtractViewModel.State.LOADING_FINISHED -> binding.progressBarExtract.visibility =
+                View.GONE
         }
+    }
+
+    private fun apiError() {
+        Toast.makeText(
+            requireContext(),
+            "Um erro inesperado aconteceu. Tente novamente mais tarde",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onDestroy() {

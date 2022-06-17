@@ -19,6 +19,12 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
     private val _statementResponse = MutableLiveData<MyStatementResponse?>()
     val statementResponse = _statementResponse as LiveData<MyStatementResponse?>
 
+    private val _balanceError = MutableLiveData<Unit>()
+    val balanceError = _balanceError as LiveData<Unit>
+
+    private val _statementError = MutableLiveData<Unit>()
+    val statementError = _statementError as LiveData<Unit>
+
     var loadingStateLiveDate = MutableLiveData<State>()
 
     fun getMyBalance() = viewModelScope.launch {
@@ -29,6 +35,7 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
+            _balanceError.value = Unit
         }
     }
 
@@ -42,6 +49,7 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
+            _statementError.value = Unit
         }
     }
 

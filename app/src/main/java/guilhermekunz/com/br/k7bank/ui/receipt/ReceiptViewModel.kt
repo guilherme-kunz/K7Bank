@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 
 class ReceiptViewModel(val repository: Repository) : ViewModel() {
 
-    var myStatementItem: MyStatementItem? = null
-
     var loadingStateLiveDate = MutableLiveData<State>()
 
     private val _statementDetailResponse = MutableLiveData<DetailStatementResponse?>()
     val statementDetailResponse = _statementDetailResponse as LiveData<DetailStatementResponse>
+
+    private val _statementDetailError = MutableLiveData<Unit>()
+    val statementDetailError = _statementDetailError as LiveData<Unit>
 
     fun statementDetail(id: String) = viewModelScope.launch {
         loadingStateLiveDate.value = State.LOADING
@@ -27,6 +28,7 @@ class ReceiptViewModel(val repository: Repository) : ViewModel() {
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
+            _statementDetailError.value = Unit
         }
     }
 

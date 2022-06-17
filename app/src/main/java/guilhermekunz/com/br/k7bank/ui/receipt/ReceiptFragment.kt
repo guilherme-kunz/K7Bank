@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
@@ -62,14 +61,25 @@ class ReceiptFragment : Fragment() {
         viewModel.loadingStateLiveDate.observe(viewLifecycleOwner) {
             handleProgressBar(it)
         }
+        viewModel.statementDetailError.observe(viewLifecycleOwner) {
+            apiError()
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setData(detailStatementResponse: DetailStatementResponse) {
         binding.tvTypeOfMovement.text = detailStatementResponse.description
         binding.tvValueQuantity.text = "R$ " + detailStatementResponse.amount.toString() + ",00"
-        binding.tvReceiverName.text = detailStatementResponse.from
-        binding.tvBankingInstitutionName.text = detailStatementResponse.bankName
+        if (detailStatementResponse.from.isNullOrBlank()) {
+            binding.tvReceiverName.text = detailStatementResponse.to
+        } else {
+            binding.tvReceiverName.text = detailStatementResponse.from
+        }
+        if (detailStatementResponse.bankName.isNullOrBlank()) {
+            binding.tvBankingInstitutionName.text = "K7 Bank"
+        } else {
+            binding.tvBankingInstitutionName.text = detailStatementResponse.bankName
+        }
         binding.tvDate.text = detailStatementResponse.createdAt
         binding.tvAuthenticationNumber.text = detailStatementResponse.id
     }
@@ -77,7 +87,8 @@ class ReceiptFragment : Fragment() {
     private fun handleProgressBar(state: ReceiptViewModel.State) {
         when (state) {
             ReceiptViewModel.State.LOADING -> binding.progressBarReceipt.visibility = View.VISIBLE
-            ReceiptViewModel.State.LOADING_FINISHED -> binding.progressBarReceipt.visibility = View.GONE
+            ReceiptViewModel.State.LOADING_FINISHED -> binding.progressBarReceipt.visibility =
+                View.GONE
         }
     }
 
@@ -85,6 +96,14 @@ class ReceiptFragment : Fragment() {
         binding.btnShare.setOnClickListener {
             Toast.makeText(context, "Você é burro cara!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun apiError() {
+        Toast.makeText(
+            requireContext(),
+            "Um erro inesperado aconteceu. Tente novamente mais tarde",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onDestroy() {
