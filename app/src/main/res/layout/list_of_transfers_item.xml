@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Transferência enviada"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -64,5 +64,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_type"
         android:visibility="gone"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="102dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_extract_amount_of_movement"
+        app:layout_constraintEnd_toStartOf="@+id/tv_extract_movement_account_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_eclipse"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_extract_movement_account_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_extract_movement_account_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_extract_movement_account_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
