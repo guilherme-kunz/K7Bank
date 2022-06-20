@@ -1,11 +1,13 @@
 package guilhermekunz.com.br.k7bank.ui.receipt
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -14,6 +16,7 @@ import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.FragmentReceiptBinding
 import guilhermekunz.com.br.k7bank.ui.MainActivity
+import guilhermekunz.com.br.k7bank.utils.DateUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReceiptFragment : Fragment() {
@@ -66,6 +69,7 @@ class ReceiptFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private fun setData(detailStatementResponse: DetailStatementResponse) {
         binding.tvTypeOfMovement.text = detailStatementResponse.description
@@ -80,6 +84,7 @@ class ReceiptFragment : Fragment() {
         } else {
             binding.tvBankingInstitutionName.text = detailStatementResponse.bankName
         }
+        val dateFormatted = DateUtils.dateTimeFormatter(detailStatementResponse.createdAt, true)
         binding.tvDate.text = detailStatementResponse.createdAt
         binding.tvAuthenticationNumber.text = detailStatementResponse.id
     }

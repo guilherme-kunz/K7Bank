@@ -1,12 +1,15 @@
 package guilhermekunz.com.br.k7bank.ui.extract
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.ListOfTransfersItemBinding
+import guilhermekunz.com.br.k7bank.utils.DateUtils
 
 class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
 
@@ -23,6 +26,7 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ExtractAdapter.ViewHolder, position: Int) {
         holder.bind(transfersList[position])
     }
@@ -58,6 +62,7 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         @SuppressLint("SetTextI18n")
         fun bind(myStatementItem: MyStatementItem) {
             this.myStatementItem = myStatementItem
@@ -73,7 +78,8 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
             tvAmount.text = "R$ " + myStatementItem.amount.toString()
 //                val dateDayMonth = myStatementItem.let { DateUtils.formatDateDayMonth(it.createdAt) }
 //                tvCreatedAt.text = dateDayMonth
-            tvCreatedAt.text = myStatementItem.createdAt
+            val dateFormatted = DateUtils.dateTimeFormatter(myStatementItem.createdAt, false)
+            tvCreatedAt.text = dateFormatted
             if (myStatementItem.tType == "PIXCASHOUT") {
                 btnPix.visibility = View.VISIBLE
             } else {
