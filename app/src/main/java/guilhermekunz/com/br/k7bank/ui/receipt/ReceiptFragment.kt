@@ -34,6 +34,7 @@ class ReceiptFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackPressed()
@@ -57,6 +58,7 @@ class ReceiptFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initObserver() {
         viewModel.statementDetailResponse.observe(viewLifecycleOwner) {
             setData(it)
@@ -85,7 +87,7 @@ class ReceiptFragment : Fragment() {
             binding.tvBankingInstitutionName.text = detailStatementResponse.bankName
         }
         val dateFormatted = DateUtils.dateTimeFormatter(detailStatementResponse.createdAt, true)
-        binding.tvDate.text = detailStatementResponse.createdAt
+        binding.tvDate.text = dateFormatted
         binding.tvAuthenticationNumber.text = detailStatementResponse.id
     }
 
