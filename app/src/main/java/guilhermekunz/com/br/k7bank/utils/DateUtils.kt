@@ -15,13 +15,13 @@ object DateUtils {
         val dateReplace = date.replace("Z", ".000Z")
         val formatter = DateTimeFormatter.ofPattern(FORMAT_DATE_TIME_TIMEZONE_STRING, Locale.ROOT)
         val dateFormatter = LocalDateTime.parse(dateReplace, formatter)
-        val formatted: String = if (isDateCompleted) {
-            DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss").toString()
+        val formatted = if (isDateCompleted) {
+            DateTimeFormatter.ofPattern("dd/MM/uuuu - HH:mm:ss")
         } else {
-            DateTimeFormatter.ofPattern("dd/MM").toString()
+            DateTimeFormatter.ofPattern("dd/MM")
         }
-
-        return formatted.format(dateFormatter)
+        val dateTime = formatted.format(dateFormatter)
+        return dateTime.toString()
     }
 
 }
