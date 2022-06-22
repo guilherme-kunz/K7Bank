@@ -72,18 +72,16 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
             val textFrom = when {
                 from != null -> from
                 to != null -> to
-                else ->  ""
+                else -> ""
             }
             tvFrom.text = textFrom
             tvAmount.text = "R$ " + myStatementItem.amount.toString()
-//                val dateDayMonth = myStatementItem.let { DateUtils.formatDateDayMonth(it.createdAt) }
-//                tvCreatedAt.text = dateDayMonth
             val dateFormatted = DateUtils.dateTimeFormatter(myStatementItem.createdAt, false)
             tvCreatedAt.text = dateFormatted
-            if (myStatementItem.tType == "PIXCASHOUT") {
-                btnPix.visibility = View.VISIBLE
-            } else {
-                btnPix.visibility = View.GONE
+            when (myStatementItem.tType) {
+                PIX_OUT -> btnPix.visibility = View.VISIBLE
+                PIX_IN -> btnPix.visibility = View.VISIBLE
+                else -> btnPix.visibility = View.GONE
             }
         }
 
@@ -91,6 +89,11 @@ class ExtractAdapter() : RecyclerView.Adapter<ExtractAdapter.ViewHolder>() {
 
     interface ClickListener {
         fun onItemClick(myStatementItem: MyStatementItem, position: Int)
+    }
+
+    companion object {
+        val PIX_OUT = "PIXCASHOUT"
+        val PIX_IN = "PIXCASHIN"
     }
 
 }
