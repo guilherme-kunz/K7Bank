@@ -47,7 +47,7 @@ class ReceiptFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             val navController: NavController =
                 Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
-            navController.popBackStack(R.id.extractFragment, false)
+            navController.navigate(R.id.extractFragment)
         }
     }
 

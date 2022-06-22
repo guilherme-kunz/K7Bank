@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
@@ -38,6 +39,7 @@ class ExtractFragment : Fragment() {
         viewModel.getMyStatement("10", "1")
         initObserver()
         extractAdapter = ExtractAdapter()
+        toggleButton()
     }
 
     private fun initObserver() {
@@ -101,6 +103,18 @@ class ExtractFragment : Fragment() {
             "Um erro inesperado aconteceu. Tente novamente mais tarde",
             Toast.LENGTH_LONG
         ).show()
+    }
+
+    private fun toggleButton() {
+        binding.ivToggle.apply {
+            setOnClickListener {
+                if (binding.tvExtractBalance.isVisible) {
+                    binding.tvExtractBalance.visibility = View.INVISIBLE
+                } else {
+                    binding.tvExtractBalance.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
