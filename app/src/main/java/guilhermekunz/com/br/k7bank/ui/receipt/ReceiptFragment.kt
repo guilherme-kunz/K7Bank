@@ -1,6 +1,9 @@
 package guilhermekunz.com.br.k7bank.ui.receipt
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -101,9 +104,42 @@ class ReceiptFragment : Fragment() {
 
     private fun btnShare() {
         binding.btnShare.setOnClickListener {
-            Toast.makeText(context, "Você é burro cara!", Toast.LENGTH_LONG).show()
+            val bitmap: Bitmap
+            val v1: View = mCurrentUrlMask.getRootView()
+            v1.setDrawingCacheEnabled(true)
+            bitmap = Bitmap.createBitmap(v1.getDrawingCache())
+            v1.setDrawingCacheEnabled(false)
+            var fout: OutputStream? = null
+            imageFile = File(mPath)
+            try {
+                fout = FileOutputStream(imageFile)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout)
+                fout!!.flush()
+                fout!!.close()
+            } catch (e: FileNotFoundException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            } catch (e: IOException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+//            val screenShot = screenShot(requireView())
+//            val sendIntent: Intent = Intent().apply {
+//                action = Intent.ACTION_SEND
+//                putExtra(Intent.EXTRA_STREAM, "This is my text to send.")
+//                type = "image/jpg"
+//            }
+//            startActivity(Intent.createChooser(sendIntent, "Teste de compartilhamento"))
         }
     }
+
+    private fun screenShot(view: View): Bitmap? {
+        val bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
 
     private fun apiError() {
         Toast.makeText(
