@@ -1,7 +1,6 @@
 package guilhermekunz.com.br.k7bank.ui.receipt
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
@@ -103,26 +102,26 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun btnShare() {
-        binding.btnShare.setOnClickListener {
-            val bitmap: Bitmap
-            val v1: View = mCurrentUrlMask.getRootView()
-            v1.setDrawingCacheEnabled(true)
-            bitmap = Bitmap.createBitmap(v1.getDrawingCache())
-            v1.setDrawingCacheEnabled(false)
-            var fout: OutputStream? = null
-            imageFile = File(mPath)
-            try {
-                fout = FileOutputStream(imageFile)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout)
-                fout!!.flush()
-                fout!!.close()
-            } catch (e: FileNotFoundException) {
-                // TODO Auto-generated catch block
-                e.printStackTrace()
-            } catch (e: IOException) {
-                // TODO Auto-generated catch block
-                e.printStackTrace()
-            }
+//        binding.btnShare.setOnClickListener {
+//            val bitmap: Bitmap
+//            val v1: View = mCurrentUrlMask.getRootView()
+//            v1.setDrawingCacheEnabled(true)
+//            bitmap = Bitmap.createBitmap(v1.getDrawingCache())
+//            v1.setDrawingCacheEnabled(false)
+//            var fout: OutputStream? = null
+//            imageFile = File(mPath)
+//            try {
+//                fout = FileOutputStream(imageFile)
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout)
+//                fout!!.flush()
+//                fout!!.close()
+//            } catch (e: FileNotFoundException) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace()
+//            } catch (e: IOException) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace()
+//            }
 //            val screenShot = screenShot(requireView())
 //            val sendIntent: Intent = Intent().apply {
 //                action = Intent.ACTION_SEND
@@ -130,34 +129,35 @@ class ReceiptFragment : Fragment() {
 //                type = "image/jpg"
 //            }
 //            startActivity(Intent.createChooser(sendIntent, "Teste de compartilhamento"))
-        }
-    }
-
-    private fun screenShot(view: View): Bitmap? {
-        val bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-        return bitmap
     }
 
 
-    private fun apiError() {
-        Toast.makeText(
-            requireContext(),
-            "Um erro inesperado aconteceu. Tente novamente mais tarde",
-            Toast.LENGTH_LONG
-        ).show()
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+private fun screenShot(view: View): Bitmap? {
+    val bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
+}
 
-    companion object {
-        fun newInstance(myStatementItem: MyStatementItem) = Bundle().apply {
-            putParcelable("myStatementItem", myStatementItem)
-        }
+
+private fun apiError() {
+    Toast.makeText(
+        requireContext(),
+        "Um erro inesperado aconteceu. Tente novamente mais tarde",
+        Toast.LENGTH_LONG
+    ).show()
+}
+
+override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
+}
+
+companion object {
+    fun newInstance(myStatementItem: MyStatementItem) = Bundle().apply {
+        putParcelable("myStatementItem", myStatementItem)
     }
+}
 
 }
