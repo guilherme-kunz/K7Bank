@@ -1,15 +1,20 @@
 package guilhermekunz.com.br.k7bank.ui.receipt
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,6 +25,8 @@ import guilhermekunz.com.br.k7bank.databinding.FragmentReceiptBinding
 import guilhermekunz.com.br.k7bank.ui.MainActivity
 import guilhermekunz.com.br.k7bank.utils.DateUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.*
+import java.util.*
 
 class ReceiptFragment : Fragment() {
 
@@ -27,6 +34,21 @@ class ReceiptFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<ReceiptViewModel>()
+
+    private val requestMultipleStoragePermissions = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions[android.Manifest.permission.WRITE_EXTERNAL_STORAGE] == true || permissions[android.Manifest.permission.READ_EXTERNAL_STORAGE] == true ||
+                    permissions[android.Manifest.permission.MANAGE_EXTERNAL_STORAGE] == true -> {
+                sharedScreen()
+            }
+            else -> {
+                handlerUserStoragePermissionDenial()
+            }
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,62 +124,100 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun btnShare() {
-//        binding.btnShare.setOnClickListener {
-//            val bitmap: Bitmap
-//            val v1: View = mCurrentUrlMask.getRootView()
-//            v1.setDrawingCacheEnabled(true)
-//            bitmap = Bitmap.createBitmap(v1.getDrawingCache())
-//            v1.setDrawingCacheEnabled(false)
-//            var fout: OutputStream? = null
-//            imageFile = File(mPath)
-//            try {
-//                fout = FileOutputStream(imageFile)
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fout)
-//                fout!!.flush()
-//                fout!!.close()
-//            } catch (e: FileNotFoundException) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace()
-//            } catch (e: IOException) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace()
-//            }
-//            val screenShot = screenShot(requireView())
-//            val sendIntent: Intent = Intent().apply {
-//                action = Intent.ACTION_SEND
-//                putExtra(Intent.EXTRA_STREAM, "This is my text to send.")
-//                type = "image/jpg"
-//            }
-//            startActivity(Intent.createChooser(sendIntent, "Teste de compartilhamento"))
+        binding.btnShare.setOnClickListener {
+            sendScreenshot()
+        }
     }
 
+    private fun sendScreenshot() {
+        if (hasStoragePermission()) {
+            sharedScreen()
+        } else {
+            requestMultipleStoragePermissions.launch(
+                arrayOf(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                )
+            )
+        }
+    }
 
+    private fun sharedScreen() {
+        val teste : String = "teste"
+        val directory = context?.getExternalFilesDir(null)?.absolutePath
+        var bitmap: Bitmap? = null
+        val v1: View? = activity?.window?.decorView?.rootView
+        if (v1 != null) {
+            v1.isDrawingCacheEnabled = true
+            bitmap = Bitmap.createBitmap(v1.drawingCache)
+            v1.isDrawingCacheEnabled = false
+        }
+        val now = Date()
+        val mPath = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString() + "/" + "picture" + ".jpg"
+        var fout: OutputStream? = null
+        val imageFile = File(mPath)
+//        imageFile.mkdirs() //se existe um diretorio cria-se um
+        try {
+            fout = FileOutputStream(imageFile)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fout)
+            fout.write(teste.encodeToByteArray())
+            fout.flush()
+            fout.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        screenShot(imageFile)
+    }
 
-private fun screenShot(view: View): Bitmap? {
-    val bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-    view.draw(canvas)
-    return bitmap
-}
-
-
-private fun apiError() {
-    Toast.makeText(
+    private fun hasStoragePermission(): Boolean = (ActivityCompat.checkSelfPermission(
         requireContext(),
-        "Um erro inesperado aconteceu. Tente novamente mais tarde",
-        Toast.LENGTH_LONG
-    ).show()
-}
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+        requireContext(),
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED
+            ) || ActivityCompat.checkSelfPermission(
+        requireContext(),
+        android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED
 
-override fun onDestroy() {
-    super.onDestroy()
-    _binding = null
-}
-
-companion object {
-    fun newInstance(myStatementItem: MyStatementItem) = Bundle().apply {
-        putParcelable("myStatementItem", myStatementItem)
+    private fun screenShot(file: File) {
+        val intent = Intent()
+        intent.action = Intent.ACTION_VIEW
+        val uri: Uri = Uri.fromFile(file)
+        intent.setDataAndType(uri, "image/*")
+        startActivity(intent)
     }
-}
+
+
+    private fun apiError() {
+        Toast.makeText(
+            requireContext(),
+            "Um erro inesperado aconteceu. Tente novamente mais tarde",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun handlerUserStoragePermissionDenial() {
+        Toast.makeText(
+            requireContext(),
+            "Não vai ser possivel compartilhar",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    companion object {
+        fun newInstance(myStatementItem: MyStatementItem) = Bundle().apply {
+            putParcelable("myStatementItem", myStatementItem)
+        }
+    }
 
 }
