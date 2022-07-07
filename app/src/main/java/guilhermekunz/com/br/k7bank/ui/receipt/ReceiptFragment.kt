@@ -28,6 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.*
 import java.util.*
 
+
 class ReceiptFragment : Fragment() {
 
     private var _binding: FragmentReceiptBinding? = null
@@ -144,8 +145,6 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun sharedScreen() {
-        val teste : String = "teste"
-        val directory = context?.getExternalFilesDir(null)?.absolutePath
         var bitmap: Bitmap? = null
         val v1: View? = activity?.window?.decorView?.rootView
         if (v1 != null) {
@@ -153,15 +152,14 @@ class ReceiptFragment : Fragment() {
             bitmap = Bitmap.createBitmap(v1.drawingCache)
             v1.isDrawingCacheEnabled = false
         }
-        val now = Date()
-        val mPath = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString() + "/" + "picture" + ".jpg"
+        val mPath = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            .toString() + "/" + "picture" + ".jpg"
         var fout: OutputStream? = null
         val imageFile = File(mPath)
 //        imageFile.mkdirs() //se existe um diretorio cria-se um
         try {
             fout = FileOutputStream(imageFile)
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fout)
-            fout.write(teste.encodeToByteArray())
             fout.flush()
             fout.close()
         } catch (e: FileNotFoundException) {
@@ -169,7 +167,7 @@ class ReceiptFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        screenShot(imageFile)
+        screenShot(imageFile, mPath)
     }
 
     private fun hasStoragePermission(): Boolean = (ActivityCompat.checkSelfPermission(
@@ -184,14 +182,25 @@ class ReceiptFragment : Fragment() {
         android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
     ) == PackageManager.PERMISSION_GRANTED
 
-    private fun screenShot(file: File) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        val uri: Uri = Uri.fromFile(file)
-        intent.setDataAndType(uri, "image/*")
-        startActivity(intent)
+    private fun screenShot(fileImage: File, file: String) {
+//        val intent = Intent()
+//        intent.action = Intent.ACTION_VIEW
+////        val uri: Uri = Uri.fromFile(file)
+//        val photoURI = FileProvider.getUriForFile(
+//            requireContext(),
+//            context?.applicationContext?.packageName.toString() + ".provider",
+//            file
+//        )
+//        intent.setDataAndType(photoURI, "image/*")
+//        startActivity(intent)
+        val uri : Uri = Uri.fromFile(fileImage)
+        val shareIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = "image/jpeg"
+        }
+        startActivity (Intent.createChooser(shareIntent, resources.getText(R.string.send_to)))
     }
-
 
     private fun apiError() {
         Toast.makeText(

@@ -18,6 +18,7 @@
     <string name="trace">-</string>
     <string name="authentication">Autenticação</string>
     <string name="share">Compartilhar</string>
+    <string name="send_to">Send To</string>
 
 
 </resources>
