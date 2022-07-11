@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -156,7 +157,7 @@ class ReceiptFragment : Fragment() {
             .toString() + "/" + "picture" + ".jpg"
         var fout: OutputStream? = null
         val imageFile = File(mPath)
-//        imageFile.mkdirs() //se existe um diretorio cria-se um
+        imageFile.mkdirs() //se não existe um diretorio cria-se um
         try {
             fout = FileOutputStream(imageFile)
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fout)
@@ -167,7 +168,9 @@ class ReceiptFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        screenShot(imageFile, mPath)
+        if (bitmap != null) {
+            screenShot(bitmap)
+        }
     }
 
     private fun hasStoragePermission(): Boolean = (ActivityCompat.checkSelfPermission(
@@ -182,24 +185,13 @@ class ReceiptFragment : Fragment() {
         android.Manifest.permission.MANAGE_EXTERNAL_STORAGE
     ) == PackageManager.PERMISSION_GRANTED
 
-    private fun screenShot(fileImage: File, file: String) {
-//        val intent = Intent()
-//        intent.action = Intent.ACTION_VIEW
-////        val uri: Uri = Uri.fromFile(file)
-//        val photoURI = FileProvider.getUriForFile(
-//            requireContext(),
-//            context?.applicationContext?.packageName.toString() + ".provider",
-//            file
-//        )
-//        intent.setDataAndType(photoURI, "image/*")
-//        startActivity(intent)
-        val uri : Uri = Uri.fromFile(fileImage)
-        val shareIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, uri)
-            type = "image/jpeg"
-        }
-        startActivity (Intent.createChooser(shareIntent, resources.getText(R.string.send_to)))
+    private fun screenShot(bitmap: Bitmap) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "image/jpeg"
+        val strPath = MediaStore.Images.Media.insertImage(activity?.contentResolver, bitmap, "testeIMG","teste")
+        val uri = Uri.parse(strPath)
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        startActivity(Intent.createChooser(intent, "compartilha imagem"))
     }
 
     private fun apiError() {
