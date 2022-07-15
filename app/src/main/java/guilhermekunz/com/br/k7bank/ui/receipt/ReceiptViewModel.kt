@@ -24,7 +24,11 @@ class ReceiptViewModel(val repository: Repository) : ViewModel() {
         loadingStateLiveDate.value = State.LOADING
         try {
             val response = repository.getMyStatementDetail(id)
-            _statementDetailResponse.value = response
+            if (response != null) {
+                _statementDetailResponse.value = response
+            } else {
+                _statementDetailError.value = Unit
+            }
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())

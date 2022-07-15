@@ -31,7 +31,11 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
         loadingStateLiveDate.value = State.LOADING
         try {
             val response = repository.getMyBalance()
-            _balanceResponse.postValue(response)
+            if (response != null){
+                _balanceResponse.postValue(response)
+            } else {
+                _balanceError.value = Unit
+            }
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {
             Log.e("Data", e.message.toString())
@@ -45,6 +49,8 @@ class ExtractViewModel(val repository: Repository)  : ViewModel() {
             val response = repository.getMyStatement(limit, offset)
             if (response != null){
                 _statementResponse.value = response
+            } else {
+                _statementError.value = Unit
             }
             loadingStateLiveDate.value = State.LOADING_FINISHED
         } catch (e: Throwable) {

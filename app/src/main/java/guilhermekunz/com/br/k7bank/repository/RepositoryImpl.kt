@@ -8,7 +8,7 @@ import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 class RepositoryImpl(val api: BankApi) : Repository {
 
     private val TOKEN =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5csdfsdf"
 
     override suspend fun getMyBalance(): MyBalanceResponse? {
         val response = api.getMyBalance(TOKEN)

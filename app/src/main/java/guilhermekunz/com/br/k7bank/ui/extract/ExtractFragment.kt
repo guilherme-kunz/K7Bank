@@ -2,16 +2,19 @@ package guilhermekunz.com.br.k7bank.ui.extract
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
+import guilhermekunz.com.br.k7bank.databinding.BottomSheetErrorBinding
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
 import guilhermekunz.com.br.k7bank.ui.receipt.ReceiptFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,6 +23,8 @@ class ExtractFragment : Fragment() {
 
     private var _binding: FragmentExtractBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var _bindingDialog: BottomSheetErrorBinding
 
     private val viewModel by viewModel<ExtractViewModel>()
 
@@ -35,6 +40,7 @@ class ExtractFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _bindingDialog = DataBindingUtil.findBinding<>()
         viewModel.getMyBalance()
         viewModel.getMyStatement("10", "1")
         initObserver()
@@ -98,11 +104,14 @@ class ExtractFragment : Fragment() {
     }
 
     private fun apiError() {
-        Toast.makeText(
-            requireContext(),
-            "Um erro inesperado aconteceu. Tente novamente mais tarde",
-            Toast.LENGTH_LONG
-        ).show()
+        val bottomSheetDialog =
+            BottomSheetDialog(ContextThemeWrapper(requireContext(), R.style.DialogSlideAnim))
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_error, null)
+        bottomSheetDialog.setContentView(view)
+        _bindingDialog.btnBottomSheet.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetDialog.show()
     }
 
     private fun toggleButton() {
