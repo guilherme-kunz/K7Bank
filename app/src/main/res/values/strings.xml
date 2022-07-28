@@ -20,5 +20,9 @@
     <string name="share">Compartilhar</string>
     <string name="send_to">Send To</string>
 
+    //Alert Dialog
+    <string name="dialog_title">Erro</string>
+    <string name="alert_dialog_message">Ocoreu um erro inesperado tente novamente mais tarde!</string>
+
 
 </resources>

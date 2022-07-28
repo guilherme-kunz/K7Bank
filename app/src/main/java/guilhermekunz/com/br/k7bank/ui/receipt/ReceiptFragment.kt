@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -195,11 +196,14 @@ class ReceiptFragment : Fragment() {
     }
 
     private fun apiError() {
-        Toast.makeText(
-            requireContext(),
-            "Um erro inesperado aconteceu. Tente novamente mais tarde",
-            Toast.LENGTH_LONG
-        ).show()
+        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
+        builder.setTitle(getString(R.string.dialog_title))
+        builder.setMessage(getString(R.string.alert_dialog_message))
+        builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun handlerUserStoragePermissionDenial() {
