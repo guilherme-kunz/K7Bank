@@ -1,12 +1,11 @@
 package guilhermekunz.com.br.k7bank.ui.receipt
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
-import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
+import guilhermekunz.com.br.k7bank.api.response.NetworkResponse
 import guilhermekunz.com.br.k7bank.repository.Repository
 import kotlinx.coroutines.launch
 
@@ -15,26 +14,24 @@ class ReceiptViewModel(val repository: Repository) : ViewModel() {
     var loadingStateLiveDate = MutableLiveData<State>()
 
     private val _statementDetailResponse = MutableLiveData<DetailStatementResponse?>()
-    val statementDetailResponse = _statementDetailResponse as LiveData<DetailStatementResponse>
+    val statementDetailResponse: LiveData<DetailStatementResponse?> = _statementDetailResponse
 
     private val _statementDetailError = MutableLiveData<Unit>()
     val statementDetailError = _statementDetailError as LiveData<Unit>
 
     fun statementDetail(id: String) = viewModelScope.launch {
         loadingStateLiveDate.value = State.LOADING
-        try {
-            val response = repository.getMyStatementDetail(id)
-            if (response != null) {
-                _statementDetailResponse.value = response
-            } else {
+        when (val response = repository.getMyStatementDetail(id)) {
+            is NetworkResponse.Failed -> {
                 _statementDetailError.value = Unit
             }
-            loadingStateLiveDate.value = State.LOADING_FINISHED
-        } catch (e: Throwable) {
-            Log.e("Data", e.message.toString())
-            _statementDetailError.value = Unit
+            is NetworkResponse.Success -> {
+                _statementDetailResponse.value = response.data
+            }
         }
+        loadingStateLiveDate.value = State.LOADING_FINISHED
     }
+
 
     enum class State {
         LOADING, LOADING_FINISHED

@@ -1,7 +1,6 @@
 package guilhermekunz.com.br.k7bank.ui.extract
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,9 @@ import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.databinding.FragmentExtractBinding
 import guilhermekunz.com.br.k7bank.ui.receipt.ReceiptFragment
+import guilhermekunz.com.br.k7bank.utils.dialog.DialogButton
+import guilhermekunz.com.br.k7bank.utils.dialog.DialogModel
+import guilhermekunz.com.br.k7bank.utils.dialog.GenericDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ExtractFragment : Fragment() {
@@ -24,6 +26,8 @@ class ExtractFragment : Fragment() {
     private val viewModel by viewModel<ExtractViewModel>()
 
     private lateinit var extractAdapter: ExtractAdapter
+
+    private val genericDialog by lazy { GenericDialog(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,14 +102,18 @@ class ExtractFragment : Fragment() {
     }
 
     private fun apiError() {
-        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
-        builder.setTitle(getString(R.string.dialog_title))
-        builder.setMessage(getString(R.string.alert_dialog_message))
-        builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
-            dialog.dismiss()
-        }
-        val alert = builder.create()
-        alert.show()
+        genericDialog.apply {
+            setupDialog(
+                DialogModel(
+                    title = getString(R.string.dialog_title),
+                    content = getString(R.string.alert_dialog_message),
+                    button = DialogButton(
+                        titleButton = getString(R.string.alert_dialog_button),
+                        action = { this.dismiss() }
+                    )
+                )
+            )
+        }.show()
     }
 
     private fun toggleButton() {

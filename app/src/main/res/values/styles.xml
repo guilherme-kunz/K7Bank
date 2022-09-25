@@ -24,5 +24,8 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="RoundedCornersDialog" parent="@style/Theme.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">16dp</item>
+    </style>
 
 </resources>

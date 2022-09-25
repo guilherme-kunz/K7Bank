@@ -15,20 +15,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import guilhermekunz.com.br.k7bank.R
 import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementItem
 import guilhermekunz.com.br.k7bank.databinding.FragmentReceiptBinding
-import guilhermekunz.com.br.k7bank.ui.MainActivity
 import guilhermekunz.com.br.k7bank.utils.DateUtils
+import guilhermekunz.com.br.k7bank.utils.dialog.DialogButton
+import guilhermekunz.com.br.k7bank.utils.dialog.DialogModel
+import guilhermekunz.com.br.k7bank.utils.dialog.GenericDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.*
-import java.util.*
 
 
 class ReceiptFragment : Fragment() {
@@ -52,6 +50,7 @@ class ReceiptFragment : Fragment() {
         }
     }
 
+    private val genericDialog by lazy { GenericDialog(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,9 +71,7 @@ class ReceiptFragment : Fragment() {
 
     private fun onBackPressed() {
         binding.btnBack.setOnClickListener {
-            val navController: NavController =
-                Navigation.findNavController(activity as MainActivity, R.id.mainNavHostFragment)
-            navController.navigate(R.id.extractFragment)
+            activity?.onBackPressed()
         }
     }
 
@@ -88,7 +85,9 @@ class ReceiptFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initObserver() {
         viewModel.statementDetailResponse.observe(viewLifecycleOwner) {
-            setData(it)
+            if (it != null) {
+                setData(it)
+            }
         }
         viewModel.loadingStateLiveDate.observe(viewLifecycleOwner) {
             handleProgressBar(it)
@@ -189,21 +188,30 @@ class ReceiptFragment : Fragment() {
     private fun screenShot(bitmap: Bitmap) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/jpeg"
-        val strPath = MediaStore.Images.Media.insertImage(activity?.contentResolver, bitmap, "testeIMG","teste")
+        val strPath = MediaStore.Images.Media.insertImage(
+            activity?.contentResolver,
+            bitmap,
+            "testeIMG",
+            "teste"
+        )
         val uri = Uri.parse(strPath)
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         startActivity(Intent.createChooser(intent, "compartilha imagem"))
     }
 
     private fun apiError() {
-        val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
-        builder.setTitle(getString(R.string.dialog_title))
-        builder.setMessage(getString(R.string.alert_dialog_message))
-        builder.setNeutralButton(android.R.string.ok) { dialog, _ ->
-            dialog.dismiss()
-        }
-        val alert = builder.create()
-        alert.show()
+        genericDialog.apply {
+            setupDialog(
+                DialogModel(
+                    title = getString(R.string.dialog_title),
+                    content = getString(R.string.alert_dialog_message),
+                    button = DialogButton(
+                        titleButton = getString(R.string.alert_dialog_button),
+                        action = { this.dismiss() }
+                    )
+                )
+            )
+        }.show()
     }
 
     private fun handlerUserStoragePermissionDenial() {
