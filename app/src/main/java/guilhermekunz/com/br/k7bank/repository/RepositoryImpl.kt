@@ -6,6 +6,7 @@ import guilhermekunz.com.br.k7bank.api.response.DetailStatementResponse
 import guilhermekunz.com.br.k7bank.api.response.MyBalanceResponse
 import guilhermekunz.com.br.k7bank.api.response.MyStatementResponse
 import guilhermekunz.com.br.k7bank.api.response.NetworkResponse
+import guilhermekunz.com.br.k7bank.dao.MyBalanceDao
 
 class RepositoryImpl(val api: BankApi) : Repository {
 

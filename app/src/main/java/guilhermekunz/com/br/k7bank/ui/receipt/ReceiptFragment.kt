@@ -147,7 +147,7 @@ class ReceiptFragment : Fragment() {
 
     private fun sharedScreen() {
         var bitmap: Bitmap? = null
-        val v1: View? = activity?.window?.decorView?.rootView
+        val v1: View? = activity?.window?.decorView?.findViewById(R.id.layout_shared)
         if (v1 != null) {
             v1.isDrawingCacheEnabled = true
             bitmap = Bitmap.createBitmap(v1.drawingCache)
@@ -160,7 +160,7 @@ class ReceiptFragment : Fragment() {
         imageFile.mkdirs() //se não existe um diretorio cria-se um
         try {
             fout = FileOutputStream(imageFile)
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, fout)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fout)
             fout.flush()
             fout.close()
         } catch (e: FileNotFoundException) {
